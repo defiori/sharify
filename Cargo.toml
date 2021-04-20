@@ -1,0 +1,36 @@
+[package]
+name = "sharify"
+version = "0.1.0"
+description = "Back types with shared memory and send them cheaply between processes."
+documentation = "https://docs.rs/sharify"
+repository = "https://github.com/defiori/sharify"
+readme = "README.md"
+license = "MIT"
+authors = ["defiori"]
+edition = "2018"
+
+[features]
+default = ["shared_ndarray"]
+shared_ndarray = ["ndarray"]
+
+[dependencies]
+serde = {version = "^1.0", features=["derive"]}
+raw_sync = "^0.1.5"
+num-traits = "^0.2.14"
+ndarray = {version = "^0.14", features=["serde"], optional = true}
+
+# TODO: `shared_memory` dependency once 0.12 is published
+# shared_memory = "^0.12.0"
+fs2 = "0.4"
+cfg-if = "1.0"
+rand = "0.8"
+
+[target.'cfg(unix)'.dependencies]
+nix = "0.20"
+libc = "0.2"
+
+[target.'cfg(windows)'.dependencies]
+winapi = { version = "0.3", features = ["ntdef", "winerror", "errhandlingapi", "handleapi", "memoryapi", "winbase", "winnt"] }
+
+[dev-dependencies]
+bincode = "1"
